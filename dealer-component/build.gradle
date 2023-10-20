@@ -7,7 +7,7 @@ plugins {
 group = 'com.github'
 
 android {
-    namespace 'com.planetoto.dealer-component'
+    namespace 'com.planetoto.dealer_component'
     compileSdk 34
 
     defaultConfig {
