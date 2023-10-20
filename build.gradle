@@ -1,0 +1,15 @@
+buildscript {
+    apply from: rootProject.file('dependencies.gradle')
+
+    repositories {
+        google()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://jitpack.io" }
+    }
+
+    def plugins = ext.plugins
+    dependencies {
+        classpath plugins.android_gradle
+        classpath plugins.kotlin
+    }
+}

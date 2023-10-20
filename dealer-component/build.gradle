@@ -1,0 +1,86 @@
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+    id 'org.jetbrains.kotlin.android'
+}
+
+group = 'com.github'
+
+android {
+    namespace 'com.planetoto.dealer-component'
+    compileSdk 34
+
+    defaultConfig {
+        minSdk 24
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.5.2'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "$libs.ktx"
+    implementation "$libs.app_compat"
+    implementation "$libs.material_component"
+    implementation "$libs.facebook_shimmer"
+    implementation platform("$libs.bom_compose")
+    implementation "$libs.ui_compose"
+    implementation "$libs.ui_tooling"
+    debugImplementation "$libs.ui_tooling"
+    implementation "$libs.material_compose"
+    implementation "$libs.activity_compose"
+    implementation "$libs.viewmodel_compose"
+    implementation "$libs.coil"
+    implementation "$libs.paging"
+    implementation "$libs.constraint_compose"
+    implementation "$libs.zoomable"
+    implementation "$libs.coil_github"
+}
+
+tasks.register('sources', Jar) {
+    from android.sourceSets.main.java.srcDirs
+    archiveClassifier.set('sources')
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'com.github.oddy-dev.planet-dealer-component.dealer-component'
+                artifactId = 'dealer-component'
+            }
+
+            debug(MavenPublication) {
+                from components.debug
+
+                groupId = 'com.github.oddy-dev.planet-dealer-component.dealer-component'
+                artifactId = 'dealer-component-debug'
+            }
+        }
+    }
+}
