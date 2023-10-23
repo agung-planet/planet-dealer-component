@@ -1,10 +1,10 @@
 ext {
     composeUiVersion = "1.3.1"
-    bom_compose = '2023.09.00'
+    bom_compose = '2023.10.00'
     version_zoomable = '1.6.1'
     version_coil_github = '2.1.0'
 
-    plugins = [android_gradle: "com.android.tools.build:gradle:8.1.1",
+    plugins = [android_gradle: "com.android.tools.build:gradle:8.1.2",
                kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"]
 
     libs = [ktx               : 'androidx.core:core-ktx:1.9.0',
@@ -16,7 +16,7 @@ ext {
             ui_compose        : "androidx.compose.ui:ui",
             ui_tooling        : "androidx.compose.ui:ui-tooling",
             material_compose  : "androidx.compose.material3:material3",
-            activity_compose  : "androidx.activity:activity-compose:1.7.2",
+            activity_compose  : "androidx.activity:activity-compose:1.8.0",
             viewmodel_compose : "androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2",
             constraint_compose: "androidx.constraintlayout:constraintlayout-compose:1.0.1",
             foundation        : "androidx.compose.foundation:foundation",
