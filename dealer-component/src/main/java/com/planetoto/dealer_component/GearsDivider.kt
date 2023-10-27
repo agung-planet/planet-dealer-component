@@ -17,7 +17,7 @@ enum class GearsDividerOrientation {
 fun GearsDivider(
     modifier: Modifier = Modifier,
     thickness: Dp = 1.dp,
-    color: DealerColor = DealerColor.Ink60,
+    color: DealerColor = DealerColor.GradientBorder,
     orientation: GearsDividerOrientation = GearsDividerOrientation.Horizontal
 ) {
     when (orientation) {
