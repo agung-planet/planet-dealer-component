@@ -72,6 +72,7 @@ value class DealerColor(val color: Color) {
 
         val NotificationBorder = DealerColor(Color(0xFFE6E6E6))
         val ShadowBidDialogTitle = DealerColor(Color(0xFF1E1E1E))
+        val GradientBorder = DealerColor(Color(0x33919EAB))
     }
 
     fun alpha(value: Float): DealerColor = DealerColor(color.copy(alpha = value))
