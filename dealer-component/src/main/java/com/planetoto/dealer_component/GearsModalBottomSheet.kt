@@ -3,7 +3,6 @@ package com.planetoto.dealer_component
 import android.content.Context
 import android.graphics.PixelFormat
 import android.view.Gravity
-import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
@@ -443,29 +442,6 @@ private class ModalBottomSheetWindow(
         setViewTreeSavedStateRegistryOwner(null)
         composeView.viewTreeObserver.removeOnGlobalLayoutListener(this)
         windowManager.removeViewImmediate(this)
-    }
-
-    /**
-     * Taken from PopupWindow. Calls [onDismissRequest] when back button is pressed.
-     */
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.keyCode == KeyEvent.KEYCODE_BACK) {
-            if (keyDispatcherState == null) {
-                return super.dispatchKeyEvent(event)
-            }
-            if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
-                val state = keyDispatcherState
-                state?.startTracking(event, this)
-                return true
-            } else if (event.action == KeyEvent.ACTION_UP) {
-                val state = keyDispatcherState
-                if (state != null && state.isTracking(event) && !event.isCanceled) {
-                    onDismissRequest()
-                    return true
-                }
-            }
-        }
-        return super.dispatchKeyEvent(event)
     }
 
     override fun onGlobalLayout() {
