@@ -3,6 +3,7 @@ package com.planetoto.dealer_component
 import android.content.Context
 import android.graphics.PixelFormat
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.WindowManager
@@ -122,6 +123,7 @@ fun GearsModalBottomSheet(
     scrimColor: DealerColor = GearsModalBottomSheetDefaults.ScrimColor,
     showHandlebar: Boolean = false,
     tapOutsideToDismiss: Boolean = true,
+    pressBackToDismiss: Boolean = true,
     windowInsets: WindowInsets = GearsModalBottomSheetDefaults.NonFullScreenWindowInsets,
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit
@@ -174,7 +176,8 @@ fun GearsModalBottomSheet(
         onDismissRequest = {
             scope.launch { sheetState.hide() }.invokeOnCompletion { onDismissRequest() }
         },
-        windowInsets = windowInsets
+        windowInsets = windowInsets,
+        dismissOnBackPressed = pressBackToDismiss
     ) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val fullHeight = constraints.maxHeight
@@ -292,7 +295,8 @@ internal fun ModalBottomSheetAnchorChangeHandler(
 internal fun ModalBottomSheetPopup(
     onDismissRequest: () -> Unit,
     windowInsets: WindowInsets,
-    content: @Composable () -> Unit,
+    dismissOnBackPressed: Boolean,
+    content: @Composable () -> Unit
 ) {
     val view = LocalView.current
     val id = rememberSaveable { UUID.randomUUID() }
@@ -302,7 +306,8 @@ internal fun ModalBottomSheetPopup(
         ModalBottomSheetWindow(
             onDismissRequest = onDismissRequest,
             composeView = view,
-            saveId = id
+            saveId = id,
+            dismissOnBackPressed = dismissOnBackPressed
         ).apply {
             setCustomContent(
                 parent = parentComposition,
@@ -362,6 +367,7 @@ private class ModalBottomSheetWindow(
     private var onDismissRequest: () -> Unit,
     private val composeView: View,
     saveId: UUID,
+    private val dismissOnBackPressed: Boolean
 ) : AbstractComposeView(composeView.context),
     ViewTreeObserver.OnGlobalLayoutListener,
     ViewRootForInspector {
@@ -442,6 +448,28 @@ private class ModalBottomSheetWindow(
         setViewTreeSavedStateRegistryOwner(null)
         composeView.viewTreeObserver.removeOnGlobalLayoutListener(this)
         windowManager.removeViewImmediate(this)
+    }
+
+    /**
+     * Taken from PopupWindow. Calls [onDismissRequest] when back button is pressed.
+     */
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (dismissOnBackPressed && event.keyCode == KeyEvent.KEYCODE_BACK) {
+            if (keyDispatcherState == null) return super.dispatchKeyEvent(event)
+
+            if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
+                val state = keyDispatcherState
+                state?.startTracking(event, this)
+                return true
+            } else if (event.action == KeyEvent.ACTION_UP) {
+                val state = keyDispatcherState
+                if (state != null && state.isTracking(event) && !event.isCanceled) {
+                    onDismissRequest()
+                    return true
+                }
+            }
+        }
+        return super.dispatchKeyEvent(event)
     }
 
     override fun onGlobalLayout() {

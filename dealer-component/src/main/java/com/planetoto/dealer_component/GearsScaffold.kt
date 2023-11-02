@@ -146,6 +146,7 @@ fun <T : Any> GearsScaffold(
     scrimColor: DealerColor = DealerColor.Black.alpha(0.8f),
     isSheetDraggable: Boolean = false,
     tapOutsideSheetToDismiss: Boolean = true,
+    pressBackToDismissSheet: Boolean = true,
     contentWindowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     sheetWindowInsets: WindowInsets = GearsModalBottomSheetDefaults.NavigationBarWindowInsets,
     sheetContent: @Composable (T) -> Unit,
@@ -172,6 +173,7 @@ fun <T : Any> GearsScaffold(
                 scrimColor = scrimColor,
                 showHandlebar = isSheetDraggable,
                 tapOutsideToDismiss = tapOutsideSheetToDismiss,
+                pressBackToDismiss = pressBackToDismissSheet,
                 windowInsets = sheetWindowInsets
             ) {
                 sheetContent(it)
