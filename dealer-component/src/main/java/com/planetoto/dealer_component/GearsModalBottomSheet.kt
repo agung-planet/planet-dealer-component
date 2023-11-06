@@ -123,7 +123,6 @@ fun GearsModalBottomSheet(
     scrimColor: DealerColor = GearsModalBottomSheetDefaults.ScrimColor,
     showHandlebar: Boolean = false,
     tapOutsideToDismiss: Boolean = true,
-    pressBackToDismiss: Boolean = true,
     windowInsets: WindowInsets = GearsModalBottomSheetDefaults.NonFullScreenWindowInsets,
     onDismissRequest: () -> Unit,
     content: @Composable () -> Unit
@@ -176,8 +175,7 @@ fun GearsModalBottomSheet(
         onDismissRequest = {
             scope.launch { sheetState.hide() }.invokeOnCompletion { onDismissRequest() }
         },
-        windowInsets = windowInsets,
-        dismissOnBackPressed = pressBackToDismiss
+        windowInsets = windowInsets
     ) {
         BoxWithConstraints(Modifier.fillMaxSize()) {
             val fullHeight = constraints.maxHeight
@@ -295,7 +293,6 @@ internal fun ModalBottomSheetAnchorChangeHandler(
 internal fun ModalBottomSheetPopup(
     onDismissRequest: () -> Unit,
     windowInsets: WindowInsets,
-    dismissOnBackPressed: Boolean,
     content: @Composable () -> Unit
 ) {
     val view = LocalView.current
@@ -306,8 +303,7 @@ internal fun ModalBottomSheetPopup(
         ModalBottomSheetWindow(
             onDismissRequest = onDismissRequest,
             composeView = view,
-            saveId = id,
-            dismissOnBackPressed = dismissOnBackPressed
+            saveId = id
         ).apply {
             setCustomContent(
                 parent = parentComposition,
@@ -366,8 +362,7 @@ private fun Modifier.modalBottomSheetSwipeable(
 private class ModalBottomSheetWindow(
     private var onDismissRequest: () -> Unit,
     private val composeView: View,
-    saveId: UUID,
-    private val dismissOnBackPressed: Boolean
+    saveId: UUID
 ) : AbstractComposeView(composeView.context),
     ViewTreeObserver.OnGlobalLayoutListener,
     ViewRootForInspector {
@@ -454,7 +449,7 @@ private class ModalBottomSheetWindow(
      * Taken from PopupWindow. Calls [onDismissRequest] when back button is pressed.
      */
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (dismissOnBackPressed && event.keyCode == KeyEvent.KEYCODE_BACK) {
+        if (event.keyCode == KeyEvent.KEYCODE_BACK) {
             if (keyDispatcherState == null) return super.dispatchKeyEvent(event)
 
             if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
