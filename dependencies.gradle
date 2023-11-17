@@ -1,13 +1,15 @@
 ext {
     composeUiVersion = "1.3.1"
-    bom_compose = '2023.10.00'
+    bom_compose = '2023.10.01'
     version_zoomable = '1.6.1'
     version_coil_github = '2.1.0'
+    version_coil_landscapist = '2.2.8'
 
     plugins = [android_gradle: "com.android.tools.build:gradle:8.1.2",
                kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"]
 
-    libs = [ktx               : 'androidx.core:core-ktx:1.9.0',
+    libs = [
+            ktx               : 'androidx.core:core-ktx:1.9.0',
             app_compat        : 'androidx.appcompat:appcompat:1.5.1',
             material_component: 'com.google.android.material:material:1.4.0',
             facebook_shimmer  : 'com.facebook.shimmer:shimmer:0.5.0',
@@ -21,8 +23,10 @@ ext {
             constraint_compose: "androidx.constraintlayout:constraintlayout-compose:1.0.1",
             foundation        : "androidx.compose.foundation:foundation",
             animation         : "androidx.compose.animation:animation",
-            coil              : "com.github.skydoves:landscapist-coil:1.4.1",
+            coil              : "com.github.skydoves:landscapist-coil:$version_coil_landscapist",
+            coil_placeholder  : "com.github.skydoves:landscapist-placeholder:$version_coil_landscapist",
             paging            : "androidx.paging:paging-compose:3.2.1",
             zoomable          : "com.mxalbert.zoomable:zoomable:$version_zoomable",
-            coil_github       : "io.coil-kt:coil-compose:$version_coil_github"]
+            coil_github       : "io.coil-kt:coil-compose:$version_coil_github"
+    ]
 }
