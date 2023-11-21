@@ -31,14 +31,16 @@ fun GearsDealerImage(
     success: @Composable (BoxScope.(imageState: CoilImageState.Success, painter: Painter) -> Unit)? = null,
     error: @Composable (BoxScope.(imageState: CoilImageState.Failure) -> Unit)? = null,
     @DrawableRes previewPlaceholder: Int = 0,
-    shimmerBaseColor: DealerColor = DealerColor.Ink20,
-    shimmerHighlightColor: DealerColor = DealerColor.Ink40
+    shimmerBaseColor: DealerColor? = DealerColor.Ink20,
+    shimmerHighlightColor: DealerColor? = DealerColor.Ink40
 ) {
     val component = rememberImageComponent {
-        +ShimmerPlugin(
-            baseColor = shimmerBaseColor.color,
-            highlightColor = shimmerHighlightColor.color
-        )
+        if (shimmerHighlightColor != null && shimmerBaseColor != null) {
+            +ShimmerPlugin(
+                baseColor = shimmerBaseColor.color,
+                highlightColor = shimmerHighlightColor.color
+            )
+        }
     }
 
     if (imageLoader != null) {
