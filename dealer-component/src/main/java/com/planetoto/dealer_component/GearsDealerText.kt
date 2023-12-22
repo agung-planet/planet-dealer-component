@@ -1,5 +1,6 @@
 package com.planetoto.dealer_component
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 import com.planetoto.dealer_component.theme.DealerColor
+import io.dokar.expandabletext.ExpandableText
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -201,5 +203,119 @@ fun GearsDealerClickableText(
                 }
             }
         }
+    )
+}
+
+/**
+ * Currently not supporting ellipsis overflow
+ */
+@Composable
+fun GearsDealerText(
+    expanded: Boolean,
+    text: String,
+    modifier: Modifier = Modifier,
+    textSize: TextUnit? = null,
+    textColor: DealerColor = DealerColor.Ink100,
+    type: GearsDealerTextType = GearsDealerTextType.Subtitle16,
+    textAlign: TextAlign? = null,
+    letterSpacing: TextUnit = 0.sp,
+    lineHeight: TextUnit? = null,
+    fontWeight: FontWeight? = null,
+    expandedMaxLines: Int = Int.MAX_VALUE,
+    collapsedMaxLines: Int = 2,
+    fontStyle: FontStyle = FontStyle.Normal,
+    textStyle: TextStyle = TextStyle.Default,
+    toggle: @Composable (() -> Unit)? = null
+) {
+    val fontResId = when (type) {
+        GearsDealerTextType.CaptionLabel, GearsDealerTextType.CaptionLabel9 -> R.font.inter_medium
+
+        GearsDealerTextType.CaptionUppercase,
+        GearsDealerTextType.TextSmallText,
+        GearsDealerTextType.Text14 -> R.font.inter_regular
+
+        GearsDealerTextType.Subtitle12,
+        GearsDealerTextType.Subtitle16,
+        GearsDealerTextType.Text14Bold,
+        GearsDealerTextType.NumberInputField -> {
+            R.font.inter_semi_bold
+        }
+
+        else -> R.font.effra
+    }
+
+    ExpandableText(
+        modifier = modifier.animateContentSize(),
+        expanded = expanded,
+        text = text,
+        collapsedMaxLines = collapsedMaxLines,
+        expandedMaxLines = expandedMaxLines,
+        color = textColor.color,
+        fontSize = textSize ?: type.textSize,
+        lineHeight = lineHeight ?: type.lineHeight,
+        fontWeight = fontWeight ?: type.fontWeight,
+        fontFamily = FontFamily(Font(resId = fontResId)),
+        textAlign = textAlign,
+        letterSpacing = letterSpacing,
+        fontStyle = fontStyle,
+        style = textStyle,
+        toggle = toggle
+    )
+}
+
+/**
+ * Currently not supporting ellipsis overflow
+ */
+@Composable
+fun GearsDealerText(
+    expanded: Boolean,
+    text: AnnotatedString,
+    modifier: Modifier = Modifier,
+    textSize: TextUnit? = null,
+    textColor: DealerColor = DealerColor.Ink100,
+    type: GearsDealerTextType = GearsDealerTextType.Subtitle16,
+    textAlign: TextAlign? = null,
+    letterSpacing: TextUnit = 0.sp,
+    lineHeight: TextUnit? = null,
+    fontWeight: FontWeight? = null,
+    expandedMaxLines: Int = Int.MAX_VALUE,
+    collapsedMaxLines: Int = 2,
+    fontStyle: FontStyle = FontStyle.Normal,
+    textStyle: TextStyle = TextStyle.Default,
+    toggle: @Composable (() -> Unit)? = null
+) {
+    val fontResId = when (type) {
+        GearsDealerTextType.CaptionLabel, GearsDealerTextType.CaptionLabel9 -> R.font.inter_medium
+
+        GearsDealerTextType.CaptionUppercase,
+        GearsDealerTextType.TextSmallText,
+        GearsDealerTextType.Text14 -> R.font.inter_regular
+
+        GearsDealerTextType.Subtitle12,
+        GearsDealerTextType.Subtitle16,
+        GearsDealerTextType.Text14Bold,
+        GearsDealerTextType.NumberInputField -> {
+            R.font.inter_semi_bold
+        }
+
+        else -> R.font.effra
+    }
+
+    ExpandableText(
+        modifier = modifier.animateContentSize(),
+        expanded = expanded,
+        text = text,
+        collapsedMaxLines = collapsedMaxLines,
+        expandedMaxLines = expandedMaxLines,
+        color = textColor.color,
+        fontSize = textSize ?: type.textSize,
+        lineHeight = lineHeight ?: type.lineHeight,
+        fontWeight = fontWeight ?: type.fontWeight,
+        fontFamily = FontFamily(Font(resId = fontResId)),
+        textAlign = textAlign,
+        letterSpacing = letterSpacing,
+        fontStyle = fontStyle,
+        style = textStyle,
+        toggle = toggle
     )
 }

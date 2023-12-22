@@ -60,6 +60,7 @@ dependencies {
     implementation "$libs.constraint_compose"
     implementation "$libs.zoomable"
     implementation "$libs.coil_github"
+    implementation libs.expandable_text
 }
 
 tasks.register('sources', Jar) {
