@@ -4,6 +4,7 @@ ext {
     version_zoomable = '1.6.1'
     version_coil_github = '2.1.0'
     version_coil_landscapist = '2.2.8'
+    version_expandable_text = '0.3.8'
 
     plugins = [android_gradle: "com.android.tools.build:gradle:8.1.2",
                kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"]
@@ -27,6 +28,7 @@ ext {
             coil_placeholder  : "com.github.skydoves:landscapist-placeholder:$version_coil_landscapist",
             paging            : "androidx.paging:paging-compose:3.2.1",
             zoomable          : "com.mxalbert.zoomable:zoomable:$version_zoomable",
-            coil_github       : "io.coil-kt:coil-compose:$version_coil_github"
+            coil_github       : "io.coil-kt:coil-compose:$version_coil_github",
+            expandable_text   : "io.github.dokar3:expandabletext:$version_expandable_text"
     ]
 }
