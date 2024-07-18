@@ -6,7 +6,7 @@ ext {
     version_coil_landscapist = '2.2.8'
     version_expandable_text = '0.3.8'
 
-    plugins = [android_gradle: "com.android.tools.build:gradle:8.1.4",
+    plugins = [android_gradle: "com.android.tools.build:gradle:8.1.2",
                kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"]
 
     libs = [
