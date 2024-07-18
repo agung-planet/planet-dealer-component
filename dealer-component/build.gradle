@@ -8,11 +8,11 @@ group = 'com.github'
 
 android {
     namespace 'com.planetoto.dealer_component'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -24,13 +24,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
+
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = '1.8'
     }
+
     buildFeatures {
         compose true
     }
@@ -60,7 +58,7 @@ dependencies {
     implementation "$libs.constraint_compose"
     implementation "$libs.zoomable"
     implementation "$libs.coil_github"
-    implementation libs.expandable_text
+    implementation "$libs.expandable_text"
 }
 
 tasks.register('sources', Jar) {
