@@ -2,9 +2,9 @@ ext {
     composeUiVersion = "1.3.1"
     bom_compose = '2024.05.00'
     version_zoomable = '1.6.1'
-    version_coil_github = '2.1.0'
-    version_coil_landscapist = '2.2.8'
+    version_coil = '2.6.0'
     version_expandable_text = '0.3.8'
+    version_shimmer = '1.3.0'
 
     plugins = [android_gradle: "com.android.tools.build:gradle:8.1.2",
                kotlin        : "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0"]
@@ -24,11 +24,10 @@ ext {
             constraint_compose: "androidx.constraintlayout:constraintlayout-compose:1.0.1",
             foundation        : "androidx.compose.foundation:foundation",
             animation         : "androidx.compose.animation:animation",
-            coil              : "com.github.skydoves:landscapist-coil:$version_coil_landscapist",
-            coil_placeholder  : "com.github.skydoves:landscapist-placeholder:$version_coil_landscapist",
             paging            : "androidx.paging:paging-compose:3.2.1",
             zoomable          : "com.mxalbert.zoomable:zoomable:$version_zoomable",
-            coil_github       : "io.coil-kt:coil-compose:$version_coil_github",
-            expandable_text   : "io.github.dokar3:expandabletext:$version_expandable_text"
+            coil           : "io.coil-kt:coil-compose:$version_coil",
+            expandable_text: "io.github.dokar3:expandabletext:$version_expandable_text",
+            shimmer_compose: "com.valentinilk.shimmer:compose-shimmer:$version_shimmer"
     ]
 }

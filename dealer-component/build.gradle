@@ -55,12 +55,11 @@ dependencies {
     implementation "$libs.activity_compose"
     implementation "$libs.viewmodel_compose"
     implementation "$libs.coil"
-    implementation "$libs.coil_placeholder"
     implementation "$libs.paging"
     implementation "$libs.constraint_compose"
     implementation "$libs.zoomable"
-    implementation "$libs.coil_github"
     implementation "$libs.expandable_text"
+    implementation libs.shimmer_compose
 }
 
 tasks.register('sources', Jar) {
