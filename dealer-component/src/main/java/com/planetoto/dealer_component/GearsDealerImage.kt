@@ -18,9 +18,11 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.compose.DefaultModelEqualityDelegate
 import coil.compose.EqualityDelegate
-import com.mxalbert.zoomable.Zoomable
-import com.mxalbert.zoomable.ZoomableState
 import com.valentinilk.shimmer.shimmer
+import net.engawapg.lib.zoomable.ScrollGesturePropagation
+import net.engawapg.lib.zoomable.ZoomState
+import net.engawapg.lib.zoomable.toggleScale
+import net.engawapg.lib.zoomable.zoomable
 
 @Composable
 fun GearsDealerImage(
@@ -72,7 +74,7 @@ fun GearsDealerImage(
 fun GearsDealerImage(
     modifier: Modifier = Modifier,
     imageUrl: String,
-    state: ZoomableState,
+    zoomState: ZoomState,
     contentScale: ContentScale = ContentScale.Crop,
     error: Painter? = null,
     onLoading: ((AsyncImagePainter.State.Loading) -> Unit)? = null,
@@ -86,33 +88,34 @@ fun GearsDealerImage(
     clipToBounds: Boolean = true,
     modelEqualityDelegate: EqualityDelegate = DefaultModelEqualityDelegate,
     enableZoom: Boolean = true,
-    onTap: ((Offset) -> Unit)? = null,
-    dismissGestureEnabled: Boolean = false,
-    onDismiss: () -> Boolean = { false }
+    enableOneFingerZoom: Boolean = true,
+    scrollGesturePropagation: ScrollGesturePropagation = ScrollGesturePropagation.ContentEdge,
+    onTap: (position: Offset) -> Unit = {},
+    onDoubleTap: suspend (position: Offset) -> Unit = { position ->
+        if (enableZoom) zoomState.toggleScale(2.5f, position)
+    },
 ) {
-    Zoomable(
-        modifier = modifier,
-        state = state,
-        enabled = enableZoom,
-        onTap = onTap,
-        onDismiss = onDismiss,
-        dismissGestureEnabled = dismissGestureEnabled
-    ) {
-        GearsDealerImage(
-            modifier = modifier,
-            imageUrl = imageUrl,
-            contentScale = contentScale,
-            error = error,
-            onLoading = onLoading,
-            onSuccess = onSuccess,
-            onError = onError,
-            alignment = alignment,
-            alpha = alpha,
-            contentDescription = contentDescription,
-            colorFilter = colorFilter,
-            filterQuality = filterQuality,
-            clipToBounds = clipToBounds,
-            modelEqualityDelegate = modelEqualityDelegate
-        )
-    }
+    GearsDealerImage(
+        modifier = modifier.zoomable(
+            zoomState = zoomState,
+            zoomEnabled = enableZoom,
+            enableOneFingerZoom = enableOneFingerZoom,
+            scrollGesturePropagation = scrollGesturePropagation,
+            onTap = onTap,
+            onDoubleTap = onDoubleTap
+        ),
+        imageUrl = imageUrl,
+        contentScale = contentScale,
+        error = error,
+        onLoading = onLoading,
+        onSuccess = onSuccess,
+        onError = onError,
+        alignment = alignment,
+        alpha = alpha,
+        contentDescription = contentDescription,
+        colorFilter = colorFilter,
+        filterQuality = filterQuality,
+        clipToBounds = clipToBounds,
+        modelEqualityDelegate = modelEqualityDelegate
+    )
 }

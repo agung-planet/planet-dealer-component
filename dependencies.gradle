@@ -25,7 +25,7 @@ ext {
             foundation        : "androidx.compose.foundation:foundation",
             animation         : "androidx.compose.animation:animation",
             paging            : "androidx.paging:paging-compose:3.2.1",
-            zoomable          : "com.mxalbert.zoomable:zoomable:$version_zoomable",
+            zoomable       : "net.engawapg.lib:zoomable:$version_zoomable",
             coil           : "io.coil-kt:coil-compose:$version_coil",
             expandable_text: "io.github.dokar3:expandabletext:$version_expandable_text",
             shimmer_compose: "com.valentinilk.shimmer:compose-shimmer:$version_shimmer"
