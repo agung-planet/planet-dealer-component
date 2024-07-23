@@ -24,11 +24,11 @@ import kotlin.math.pow
 /**
  * Creates a [DealerPullRefreshState] that is remembered across compositions.
  *
- * Changes to [refreshing] will result in [DealerPullRefreshState] being updated.
+ * Changes to [initialRefreshing] will result in [DealerPullRefreshState] being updated.
  *
  * @sample androidx.compose.material.samples.PullRefreshSample
  *
- * @param refreshing A boolean representing whether a refresh is currently occurring.
+ * @param initialRefreshing A boolean representing whether a refresh is currently occurring.
  * @param onRefresh The function to be called to trigger a refresh.
  * @param refreshThreshold The threshold below which, if a release
  * occurs, [onRefresh] will be called.
@@ -36,8 +36,8 @@ import kotlin.math.pow
  * offset corresponds to the position of the bottom of the indicator.
  */
 @Composable
-fun rememberDealerPullRefreshState(
-    refreshing: Boolean,
+fun rememberGearsDealerPullRefreshState(
+    initialRefreshing: Boolean,
     onRefresh: () -> Unit,
     refreshThreshold: Dp = DealerPullRefreshDefaults.RefreshThreshold,
     refreshingOffset: Dp = DealerPullRefreshDefaults.RefreshingOffset,
@@ -59,7 +59,7 @@ fun rememberDealerPullRefreshState(
     }
 
     SideEffect {
-        state.setRefreshing(refreshing)
+        state.setRefreshing(initialRefreshing)
         state.setThreshold(thresholdPx)
         state.setRefreshingOffset(refreshingOffsetPx)
     }
@@ -78,7 +78,7 @@ fun rememberDealerPullRefreshState(
  * Can be used in conjunction with [salesPullRefreshIndicatorTransform] to implement Android-like
  * pull-to-refresh behaviour with a custom indicator.
  *
- * Should be created using [rememberDealerPullRefreshState].
+ * Should be created using [rememberGearsDealerPullRefreshState].
  */
 class DealerPullRefreshState internal constructor(
     private val animationScope: CoroutineScope,
@@ -189,7 +189,7 @@ class DealerPullRefreshState internal constructor(
 }
 
 /**
- * Default parameter values for [rememberDealerPullRefreshState].
+ * Default parameter values for [rememberGearsDealerPullRefreshState].
  */
 object DealerPullRefreshDefaults {
     /**
