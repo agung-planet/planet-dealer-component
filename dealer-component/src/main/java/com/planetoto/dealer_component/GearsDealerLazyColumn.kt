@@ -12,7 +12,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -24,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.planetoto.dealer_component.theme.DealerColor
-import com.planetoto.dealer_component.util.isFirstLoading
 import com.planetoto.dealer_component.util.isLoadedEmpty
+import com.planetoto.dealer_component.util.isLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -49,7 +53,7 @@ fun GearsDealerLazyColumn(
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     itemsToListenState: LazyPagingItems<*>,
     isOverScrollMode: Boolean = false,
-    onFirstLoad: @Composable (LazyItemScope.() -> Unit) = {
+    onLoadingFirstPage: @Composable (LazyItemScope.() -> Unit) = {
         Box(
             modifier = Modifier.fillParentMaxSize(),
             contentAlignment = Alignment.Center
@@ -74,9 +78,13 @@ fun GearsDealerLazyColumn(
                 horizontalAlignment,
                 flingBehavior
             ) {
-                content()
-
                 itemsToListenState.apply {
+                    if (isLoading()) {
+                        item(content = onLoadingFirstPage)
+                    } else {
+                        content()
+                    }
+
                     when {
                         loadState.append is LoadState.Loading -> item {
                             Row(
@@ -99,7 +107,6 @@ fun GearsDealerLazyColumn(
                             }
                         }
 
-                        isFirstLoading() -> item(content = onFirstLoad)
                         loadState.append is LoadState.Error || loadState.refresh is LoadState.Error -> {
                             coroutineScope.launch {
                                 delay(5000)

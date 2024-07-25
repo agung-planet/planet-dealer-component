@@ -24,11 +24,11 @@ import kotlin.math.pow
 /**
  * Creates a [DealerPullRefreshState] that is remembered across compositions.
  *
- * Changes to [initialRefreshing] will result in [DealerPullRefreshState] being updated.
+ * Changes to [refreshing] will result in [DealerPullRefreshState] being updated.
  *
  * @sample androidx.compose.material.samples.PullRefreshSample
  *
- * @param initialRefreshing A boolean representing whether a refresh is currently occurring.
+ * @param refreshing A boolean representing whether a refresh is currently occurring.
  * @param onRefresh The function to be called to trigger a refresh.
  * @param refreshThreshold The threshold below which, if a release
  * occurs, [onRefresh] will be called.
@@ -37,7 +37,7 @@ import kotlin.math.pow
  */
 @Composable
 fun rememberGearsDealerPullRefreshState(
-    initialRefreshing: Boolean,
+    refreshing: Boolean,
     onRefresh: () -> Unit,
     refreshThreshold: Dp = DealerPullRefreshDefaults.RefreshThreshold,
     refreshingOffset: Dp = DealerPullRefreshDefaults.RefreshingOffset,
@@ -59,7 +59,7 @@ fun rememberGearsDealerPullRefreshState(
     }
 
     SideEffect {
-        state.setRefreshing(initialRefreshing)
+        state.setRefreshing(refreshing)
         state.setThreshold(thresholdPx)
         state.setRefreshingOffset(refreshingOffsetPx)
     }
@@ -68,14 +68,14 @@ fun rememberGearsDealerPullRefreshState(
 }
 
 /**
- * A state object that can be used in conjunction with [pullRefresh] to add pull-to-refresh
+ * A state object that can be used in conjunction with [dealerPullRefresh] to add pull-to-refresh
  * behaviour to a scroll component. Based on Android's SwipeRefreshLayout.
  *
  * Provides [progress], a float representing how far the user has pulled as a percentage of the
  * refreshThreshold. Values of one or less indicate that the user has not yet pulled past the
  * threshold. Values greater than one indicate how far past the threshold the user has pulled.
  *
- * Can be used in conjunction with [salesPullRefreshIndicatorTransform] to implement Android-like
+ * Can be used in conjunction with [dealerPullRefreshIndicatorTransform] to implement Android-like
  * pull-to-refresh behaviour with a custom indicator.
  *
  * Should be created using [rememberGearsDealerPullRefreshState].

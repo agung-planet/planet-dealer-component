@@ -13,7 +13,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -25,8 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.planetoto.dealer_component.theme.DealerColor
-import com.planetoto.dealer_component.util.isFirstLoading
 import com.planetoto.dealer_component.util.isLoadedEmpty
+import com.planetoto.dealer_component.util.isLoading
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -51,7 +57,7 @@ fun GearsDealerLazyVerticalGrid(
     itemsToListenState: LazyPagingItems<*>,
     columnSize: Int = 2,
     isOverScrollMode: Boolean = false,
-    onFirstLoad: @Composable (LazyGridItemScope.() -> Unit) = {
+    onLoadingFirstPage: @Composable (LazyGridItemScope.() -> Unit) = {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.TopCenter) {
             CircularProgressIndicator(
                 modifier = Modifier
@@ -83,6 +89,12 @@ fun GearsDealerLazyVerticalGrid(
                 content()
 
                 itemsToListenState.apply {
+                    if (isLoading()) {
+                        item(content = onLoadingFirstPage)
+                    } else {
+                        content()
+                    }
+
                     when {
                         loadState.append is LoadState.Loading -> item(span = {
                             GridItemSpan(
@@ -107,10 +119,6 @@ fun GearsDealerLazyVerticalGrid(
                                     textColor = DealerColor.BlackAlpha50
                                 )
                             }
-                        }
-
-                        isFirstLoading() -> item(span = { GridItemSpan(columnSize) }) {
-                            onFirstLoad()
                         }
 
                         loadState.append is LoadState.Error || loadState.refresh is LoadState.Error -> {
