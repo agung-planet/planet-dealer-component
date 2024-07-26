@@ -86,21 +86,17 @@ fun GearsDealerLazyVerticalGrid(
                 horizontalArrangement = horizontalArrangement,
                 flingBehavior = flingBehavior
             ) {
-                content()
-
                 itemsToListenState.apply {
                     if (isLoading()) {
-                        item(content = onLoadingFirstPage)
+                        item(span = { GridItemSpan(columnSize) }, content = onLoadingFirstPage)
                     } else {
                         content()
                     }
 
                     when {
-                        loadState.append is LoadState.Loading -> item(span = {
-                            GridItemSpan(
-                                columnSize
-                            )
-                        }) {
+                        loadState.append is LoadState.Loading -> item(
+                            span = { GridItemSpan(columnSize) }
+                        ) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
